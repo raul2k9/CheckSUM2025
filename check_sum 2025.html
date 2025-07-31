@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hex Checksum Verifier (Sum % 256)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      font-family: monospace;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      white-space: pre-wrap;
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      padding: 15px;
+      font-size: 16px;
+      background-color: #343a40;
+      color: #ffffff;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🔍 Hex Checksum Verifier (Sum % 256)</h2>
+  <p>Paste space-separated hex bytes below. The last byte is assumed to be the checksum.</p>
+
+  <textarea id="hexInput" placeholder="e.g., 07 2F 51 CA 01 ... 4F"></textarea>
+  <br>
+  <button onclick="verifyChecksum()">Check Checksum</button>
+
+  <div class="result" id="result"></div>
+
+  <footer>
+    Designed &amp; Developed by Maj IR Rahul,<br>OIC Zonal Tarang Cell – July 2025
+  </footer>
+
+  <script>
+    function verifyChecksum() {
+      const input = document.getElementById("hexInput").value.trim();
+      const hexArray = input.split(/\s+/);
+      const bytes = hexArray.map(h => parseInt(h, 16));
+
+      if (bytes.some(isNaN)) {
+        document.getElementById("result").innerText = "❌ Invalid hex input.";
+        return;
+      }
+
+      if (bytes.length < 2) {
+        document.getElementById("result").innerText = "❌ Input too short. Provide at least 2 bytes.";
+        return;
+      }
+
+      const providedChecksum = bytes[bytes.length - 1];
+      const sum = bytes.slice(0, -1).reduce((a, b) => a + b, 0);
+      const calculatedChecksum = sum % 256;
+
+      const resultText =
+        `✅ Total Sum: ${sum}\n` +
+        `🧮 Calculated Checksum (Sum % 256): ${calculatedChecksum} (0x${calculatedChecksum.toString(16).toUpperCase()})\n` +
+        `📦 Provided Checksum: ${providedChecksum} (0x${providedChecksum.toString(16).toUpperCase()})\n\n` +
+        (calculatedChecksum === providedChecksum
+          ? "✅ Checksum is CORRECT."
+          : "❌ Checksum does NOT match.");
+
+      document.getElementById("result").innerText = resultText;
+    }
+  </script>
+
+</body>
+</html>
