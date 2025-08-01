@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Hex Checksum Verifier </title>
+  <title>Hex Checksum Verifier</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -88,11 +88,11 @@
 
       const resultText =
         `✅ Total Sum: ${sum}\n` +
-        `🧮 Calculated Checksum (Sum % 256): ${calculatedChecksum} (0x${calculatedChecksum.toString(16).toUpperCase()})\n` +
+        `🧮 Calculated Checksum : ${calculatedChecksum} (0x${calculatedChecksum.toString(16).toUpperCase()})\n` +
         `📦 Provided Checksum: ${providedChecksum} (0x${providedChecksum.toString(16).toUpperCase()})\n\n` +
         (calculatedChecksum === providedChecksum
-          ? "✅ Checksum is CORRECT."
-          : "❌ Checksum does NOT match.");
+          ? "✅ Checksum is CORRECT, Actual Interception."
+          : "❌ Checksum does NOT match, Erroneous Interception.");
 
       document.getElementById("result").innerText = resultText;
     }
